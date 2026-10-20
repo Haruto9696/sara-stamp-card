@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#3d8bd5">
+<title>さらちゃん面接頑張れスタンプラリー</title>
+<style>
+:root{--blue:#3d8bd5;--deep:#175b9e;--ink:#245b91}*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:20px 14px 32px;background:linear-gradient(150deg,#8fc5f5,#3d8bd5 58%,#2b74b9);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;color:var(--ink)}
+.wrap{max-width:620px;margin:auto}.hero{text-align:center;color:white;padding:16px 8px 22px}.hero .kicker{letter-spacing:.15em;margin:0 0 8px}.hero h1{font-size:clamp(1.7rem,6vw,2.4rem);line-height:1.35;margin:0;text-shadow:0 2px #246db2}.hero p:last-child{margin:10px 0 0}
+.card{background:#fff;border:2px solid #ffffffaa;border-radius:26px;overflow:hidden;box-shadow:0 14px 35px #164d8033}.content{padding:22px 18px 24px}.line{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:800;margin-bottom:10px}.count{background:#eaf5ff;border-radius:99px;padding:7px 11px;white-space:nowrap}.track{height:9px;background:#e1effc;border-radius:99px;overflow:hidden;margin-bottom:22px}.fill{height:100%;width:0;background:linear-gradient(90deg,#78b9f3,#2479c9);transition:width .25s}
+.stamps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.stamp{border:2px dashed #8bbbe8;background:#f7fbff;border-radius:50%;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#4388c8;padding:2px;min-width:0;cursor:pointer;transition:transform .12s}.stamp:active{transform:scale(.94)}.stamp .num{font-size:clamp(1.3rem,5vw,2rem);font-weight:900;line-height:1.1}.stamp .label{font-size:clamp(.43rem,1.8vw,.65rem)}.stamp.done{background:#3d8bd5;border:2px solid #2877c3;color:white;box-shadow:inset 0 0 0 3px #ffffff45}
+.rules{margin:22px 0 15px;background:#eef7ff;border-radius:16px;padding:14px 15px;line-height:1.9;font-weight:700}.rules p{margin:0}.btn{width:100%;border:0;border-radius:14px;padding:14px 12px;background:#287bc4;color:white;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #1b609f}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #1b609f}.secondary{background:#eaf4ff;color:#286aa6;box-shadow:none;border:1px solid #c4e0fa;margin-top:10px}
+.reward{display:none;text-align:center;background:#fff7d9;border:2px solid #ffdf83;border-radius:19px;padding:18px 12px;margin-top:16px;color:#865b10}.reward.show{display:block;animation:pop .35s ease-out}.emoji{font-size:2.5rem}.reward h2{font-size:1.4rem;margin:5px 0}.reward p{margin:5px 0;line-height:1.6}.note{text-align:center;color:#6b8eaf;font-size:.78rem;line-height:1.65;margin:15px 0 0}.footer{text-align:center;color:white;font-size:.8rem;margin-top:16px}
+@keyframes pop{from{transform:scale(.92);opacity:.5}to{transform:scale(1);opacity:1}}@media(max-width:390px){.content{padding:18px 12px}.stamps{gap:5px}.stamp .label{font-size:.4rem}}
+</style></head>
+<body><main class="wrap">
+<header class="hero"><p class="kicker">さらちゃんへ ♡</p><h1>面接頑張れ<br>スタンプラリー</h1><p>ひとつずつ、自分のペースでがんばろう！ ☁️</p></header>
+<section class="card"><div class="content">
+<div class="line"><span>🎀 スタンプカード</span><span class="count" id="count">0 / 5 ポイント</span></div>
+<div class="track"><div class="fill" id="fill"></div></div>
+<div class="stamps" id="stamps">
+<button class="stamp" aria-label="1ポイント"><span class="num">1</span><span class="label">POINT</span></button><button class="stamp" aria-label="2ポイント"><span class="num">2</span><span class="label">POINT</span></button><button class="stamp" aria-label="3ポイント"><span class="num">3</span><span class="label">POINT</span></button><button class="stamp" aria-label="4ポイント"><span class="num">4</span><span class="label">POINT</span></button><button class="stamp" aria-label="5ポイント"><span class="num">5</span><span class="label">POINT</span></button>
+</div>
+<div class="rules"><p>⭐ 面接1回で1ポイント！</p><p>🎁 5ポイント貯まったら、お洋服1着！</p></div>
+<button class="btn" id="add">⭐ 面接完了！スタンプを押す</button>
+<div class="reward" id="reward" role="status" aria-live="polite"><div class="emoji">🎉👗🎁</div><h2>5ポイント達成！！</h2><p>面接お疲れさま！よく頑張りました♡<br><strong>ごほうびのお洋服 1着！</strong></p><button class="btn" id="next" style="margin-top:12px">新しいカードを始める</button></div>
+<button class="btn secondary" id="undo">1ポイント戻す</button>
+<p class="note">ポイントはこの端末のブラウザに自動保存されます。<br>同じスマホ・同じブラウザで使ってね。</p>
+</div></section><p class="footer">さらちゃんを応援しています 🩵</p></main>
+<script>
+(()=>{const KEY='sara-stamp-card-v1';let points=0;try{points=Math.max(0,Math.min(5,Number(localStorage.getItem(KEY))||0))}catch(e){}
+const $=id=>document.getElementById(id);function save(){try{localStorage.setItem(KEY,String(points))}catch(e){}}
+function draw(){$('count').textContent=`${points} / 5 ポイント`;$('fill').style.width=`${points*20}%`;[...document.querySelectorAll('.stamp')].forEach((el,i)=>{let done=i<points;el.classList.toggle('done',done);el.innerHTML=done?'<span class="num">♥</span><span class="label">GET!</span>':`<span class="num">${i+1}</span><span class="label">POINT</span>`;el.setAttribute('aria-label',done?`${i+1}ポイント済み。タップで取り消し`:`${i+1}ポイント`)});$('reward').classList.toggle('show',points===5);$('add').disabled=points>=5;$('add').style.opacity=points>=5?'.55':'1'}
+$('add').addEventListener('click',()=>{if(points<5){points++;save();draw()}});
+$('undo').addEventListener('click',()=>{if(points>0){points--;save();draw()}});
+document.querySelectorAll('.stamp').forEach((el,i)=>el.addEventListener('click',()=>{if(i<points)points=i;else if(i===points&&points<5)points++;save();draw()}));
+$('next').addEventListener('click',()=>{if(points===5&&confirm('ごほうびのお洋服を受け取ったら、新しいカードを始める？')){points=0;save();draw()}});
+draw()})();
+</script></body></html>
